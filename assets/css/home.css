@@ -2,6 +2,9 @@
         
         form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom: 0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
     </style> */
+body{
+    color: black;
+}
 
 form{
     background-color:rgba(0, 0, 0, 0.15) ;
@@ -10,4 +13,22 @@ form{
     display: flex; height: 3rem; 
     box-sizing: border-box; 
     backdrop-filter: blur(10px);
+}
+
+
+.right{
+    float: right;
+    clear: both;
+    padding: 10px;
+}
+.left{
+    float: left;
+    clear: both;
+    padding: 10px;
+}
+
+.middle{
+    float: left;
+    clear: both;
+    padding: 10px;
 }
