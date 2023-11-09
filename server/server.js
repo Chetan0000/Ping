@@ -1,29 +1,25 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const chats = require("./data");
+const connectDb = require("./config/mongo");
+const userRoutes = require("./routes/userRoutes");
 
-const app = express();
 dotenv.config();
+connectDb();
+const app = express();
 
+app.use(express.json()); // to accept json data
 // app.use(express.urlencoded);
 app.get("/", (req, res) => {
   return res.send("Hello....!");
 });
 
-app.get("/chats", (req, res) => {
-  console.log(chats);
-  return res.send(chats);
-});
+// routs all the request's witch has a url /ap/user
+// to userRouts
+app.use("/api/user", userRoutes);
 
-app.get("/chats/:id", async (req, res) => {
-  let id = req.params.id;
-  let chat = chats.find((c) => {
-    // console.log(c);
-    return c._id;
-  });
-  console.log(chat);
-  return res.send(`HHHHH ${chat}`);
-});
+// app.user(notFound);
+// app.user(errorHandler);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, (error) => {
