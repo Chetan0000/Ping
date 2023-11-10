@@ -6,6 +6,7 @@ import {
   InputGroup,
   InputRightElement,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -19,8 +20,68 @@ const Signup = () => {
   const [conformPassword, setConformPassword] = useState("");
   const [pic, setPic] = useState("");
   const [show, setShow] = useState(false);
-  const postDetails = (picks) => {};
-  const submitHandler = () => {};
+  const [loading, setLoading] = useState(false);
+
+  // pop-up notifications using toast
+  const toast = useToast();
+  const toastIdRef = React.useRef();
+  // function to create tost's <pop-up notifications>
+  const addToast = (title, status) => {
+    toastIdRef.current = toast({
+      title: title,
+      status: status,
+      duration: 3000,
+      isClosable: true,
+      position: "bottom",
+    });
+  };
+
+  // function to uplode file to cloud and get running url of the image
+  const postDetails = (pics) => {
+    setLoading(true);
+    if (pics === undefined) {
+      addToast("Please Select an Image..!", "warning");
+      setLoading(false);
+      return;
+    }
+
+    if (pics.type === "image/jpeg" || pics.type === "image/png") {
+      const data = new FormData();
+      data.append("file", pics);
+      data.append("upload_preset", "chat-app");
+      data.append("cloud_name", "dzudljnu4");
+      fetch("https://api.cloudinary.com/v1_1/dzudljnu4/image/upload", {
+        method: "post",
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setPic(data.url.toString());
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+        });
+    } else {
+      addToast("Please Select an Image..!", "warning");
+      return;
+    }
+  };
+  const submitHandler = async () => {
+    setLoading(true);
+    if (!name || !password || !email) {
+      addToast("Please Fill all the fields.!", "warning");
+      setLoading(false);
+      return;
+    }
+    if (password !== conformPassword) {
+      addToast("Password dos't Match..", "warning");
+      setLoading(false);
+      return;
+    }
+  };
   const handelClick = () => {
     setShow(!show);
   };
@@ -112,7 +173,8 @@ const Signup = () => {
           colorScheme="blue"
           width={"100%"}
           style={{}}
-          onclick={submitHandler}
+          isLoading={loading}
+          onClick={submitHandler}
         >
           Sign up
         </Button>

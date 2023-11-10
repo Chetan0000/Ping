@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const chats = require("./data");
 const connectDb = require("./config/mongo");
 const userRoutes = require("./routes/userRoutes");
+const { errorHandler, notFound } = require("./middleware/errorMiddleware");
 
 dotenv.config();
 connectDb();
@@ -18,8 +19,8 @@ app.get("/", (req, res) => {
 // to userRouts
 app.use("/api/user", userRoutes);
 
-// app.user(notFound);
-// app.user(errorHandler);
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, (error) => {
