@@ -9,10 +9,11 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 
 // import { fa-regular, fa-eye } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
-
+import { useHistory } from "react-router-dom";
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,7 +22,7 @@ const Signup = () => {
   const [pic, setPic] = useState("");
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const history = useHistory();
   // pop-up notifications using toast
   const toast = useToast();
   const toastIdRef = React.useRef();
@@ -70,6 +71,7 @@ const Signup = () => {
     }
   };
   const submitHandler = async () => {
+    console.log("check");
     setLoading(true);
     if (!name || !password || !email) {
       addToast("Please Fill all the fields.!", "warning");
@@ -80,6 +82,26 @@ const Signup = () => {
       addToast("Password dos't Match..", "warning");
       setLoading(false);
       return;
+    }
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        "/api/user/signUp",
+        { name, email, password, pic },
+        config
+      );
+      addToast("Registration Successful", "success");
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      setLoading(false);
+      history.push("/");
+    } catch (error) {
+      console.log(error);
+      addToast("Error in signingUp.. Please try later", "error");
+      setLoading(false);
     }
   };
   const handelClick = () => {

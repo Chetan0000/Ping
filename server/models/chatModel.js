@@ -10,7 +10,7 @@ const chatModel = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    user: [
+    users: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
@@ -26,7 +26,7 @@ const chatModel = mongoose.Schema(
     },
   },
   {
-    timeStamp: true,
+    timestamps: true,
   }
 );
 

@@ -8,15 +8,59 @@ import {
   InputRightElement,
   Link,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
+import axios from "axios";
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
+  const toast = useToast();
+  const toastIdRef = React.useRef();
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
+  const addToast = (title, status) => {
+    toastIdRef.current = toast({
+      title: title,
+      status: status,
+      duration: 3000,
+      isClosable: true,
+      position: "bottom",
+    });
+  };
 
-  const submitHandler = () => {};
+  const submitHandler = async () => {
+    setLoading(true);
+    if (!email || !password) {
+      addToast("Fill all the fields..!", "warning");
+      setLoading(false);
+      return;
+    }
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      const { data } = await axios.post(
+        "/api/user/login",
+        { email, password },
+        config
+      );
+      addToast("Log In  Successful", "success");
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      setLoading(false);
+      history.push("/");
+    } catch (error) {
+      console.log(error);
+      addToast("Error in Login ", "error");
+      setLoading(false);
+    }
+  };
   const handelClick = () => {
     setShow(!show);
   };
@@ -29,6 +73,7 @@ const Login = () => {
           bg={"#050504"}
           type="email"
           placeholder="Enter Your email"
+          value={email}
           onChange={(e) => {
             setEmail(e.target.value);
           }}
@@ -48,6 +93,7 @@ const Login = () => {
             bg={"#050504"}
             type={show ? "text" : "password"}
             placeholder="Enter Password"
+            value={password}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
@@ -72,8 +118,7 @@ const Login = () => {
         fontSize={"14px"}
         colorScheme="blue"
         width={"100%"}
-        style={{}}
-        onclick={submitHandler}
+        onClick={submitHandler}
       >
         Sign in
       </Button>
@@ -86,13 +131,10 @@ const Login = () => {
         // bg={"gr"}
         colorScheme="green"
         width={"100%"}
-        onClick={
-          (submitHandler,
-          (e) => {
-            setEmail("demo@gmail.com");
-            setPassword("demo@123");
-          })
-        }
+        onClick={() => {
+          setEmail("kumar@gmail.com");
+          setPassword("123456");
+        }}
       >
         Gest user
       </Button>

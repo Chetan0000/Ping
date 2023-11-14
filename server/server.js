@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const chats = require("./data");
 const connectDb = require("./config/mongo");
 const userRoutes = require("./routes/userRoutes");
+const chatRoutes = require("./routes/chatRoutes");
 const { errorHandler, notFound } = require("./middleware/errorMiddleware");
 
 dotenv.config();
@@ -18,7 +19,7 @@ app.get("/", (req, res) => {
 // routs all the request's witch has a url /ap/user
 // to userRouts
 app.use("/api/user", userRoutes);
-
+app.use("/api/chat", chatRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
