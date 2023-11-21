@@ -8,11 +8,24 @@ import {
   TabPanels,
   TabPanel,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 import Login from "../components/Authentication/Login";
 import Signup from "../components/Authentication/Signup";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const HomePage = () => {
+  const history = useHistory();
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+
+    if (user) {
+      history.push("/chats");
+    } else {
+      history.push("/");
+    }
+  }, [history]);
+
   return (
     <>
       {/* name of hte app on home page  */}
@@ -21,17 +34,7 @@ const HomePage = () => {
         m={"auto"}
         centerContent
       >
-        <Box
-        // d="flex"
-        // justifyContent="center"
-        // alignItems="center"
-        // p={3}
-        // bg={"#121111"}
-        // w="100%"
-        // m="40px 0 15px 0"
-        // borderRadius={"lg"}
-        // borderWidth="0.2px"
-        >
+        <Box>
           <Text color={"white"} textAlign={"center"} fontSize={"4xl"}>
             Chat
           </Text>
@@ -45,11 +48,11 @@ const HomePage = () => {
           justifyContent="center"
           alignItems="center"
           p={3}
-          bg={"#121111"}
+          // bg={"#121111"}
           w="100%"
           m="40px 0 15px 0"
           borderRadius={"lg"}
-          borderColor={"#121111"}
+          // borderColor={"#121111"}
           borderWidth=""
         >
           <Tabs isFitted variant="enclosed" color={"white"}>

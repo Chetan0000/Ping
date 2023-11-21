@@ -97,7 +97,7 @@ const Signup = () => {
       addToast("Registration Successful", "success");
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
-      history.push("/");
+      history.push("/chats");
     } catch (error) {
       console.log(error);
       addToast("Error in signingUp.. Please try later", "error");

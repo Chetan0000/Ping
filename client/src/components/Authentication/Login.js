@@ -7,12 +7,11 @@ import {
   InputGroup,
   InputRightElement,
   Link,
-  VStack,
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -54,7 +53,7 @@ const Login = () => {
       addToast("Log In  Successful", "success");
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
-      history.push("/");
+      history.push("/chats");
     } catch (error) {
       console.log(error);
       addToast("Error in Login ", "error");

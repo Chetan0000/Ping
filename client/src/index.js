@@ -4,16 +4,20 @@ import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
+import ChatProvider from "./Context/ChatProvider";
+import { ColorModeScript } from "@chakra-ui/react";
+import theme from "./theme";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  <ChatProvider>
     <BrowserRouter>
       <ChakraProvider>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <App />
       </ChakraProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  </ChatProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
