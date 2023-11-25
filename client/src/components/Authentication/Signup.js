@@ -116,7 +116,7 @@ const Signup = () => {
           <FormLabel fontSize={"14px"}>Name</FormLabel>
           <Input
             fontSize={"14px"}
-            bg={"#050504"}
+            // bg={"#050504"}
             placeholder="Enter Your name"
             onChange={(e) => {
               setName(e.target.value);
@@ -127,7 +127,7 @@ const Signup = () => {
           <FormLabel fontSize={"14px"}>Email</FormLabel>
           <Input
             fontSize={"14px"}
-            bg={"#050504"}
+            // bg={"#050504"}
             type="email"
             placeholder="Enter Your email"
             onChange={(e) => {
@@ -140,7 +140,7 @@ const Signup = () => {
           <InputGroup>
             <Input
               fontSize={"14px"}
-              bg={"#050504"}
+              // bg={"#050504"}
               type={show ? "text" : "password"}
               placeholder="Enter Password"
               onChange={(e) => {
@@ -152,7 +152,7 @@ const Signup = () => {
                 marginRight={"2px"}
                 colorScheme="#050504"
                 // bg={"#050504"}
-                color={"white"}
+                color={"black"}
                 fontSize={"14px"}
                 h={"1.75rem"}
                 size={"sm"}
@@ -167,7 +167,7 @@ const Signup = () => {
           <FormLabel fontSize={"14px"}>Conform Password</FormLabel>
           <Input
             fontSize={"14px"}
-            bg={"#050504"}
+            // bg={"#050504"}
             placeholder="Conform Password"
             onChange={(e) => {
               setConformPassword(e.target.value);
@@ -178,7 +178,7 @@ const Signup = () => {
           <FormLabel fontSize={"14px"}>Profile Picture</FormLabel>
           <Input
             fontSize={"14px"}
-            bg={"#050504"}
+            // bg={"#050504"}
             type="file"
             p={1.5}
             accept="image/*"

@@ -14,4 +14,13 @@ const ChatLoading = () => {
   );
 };
 
+const SearchUsersLoading = () => {
+  return (
+    <Stack>
+      <Skeleton height="15px" />
+      <Skeleton height="15px" />
+    </Stack>
+  );
+};
+
 export default ChatLoading;

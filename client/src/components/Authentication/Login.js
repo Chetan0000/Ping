@@ -69,7 +69,7 @@ const Login = () => {
         <FormLabel fontSize={"14px"}>Email</FormLabel>
         <Input
           fontSize={"14px"}
-          bg={"#050504"}
+          // bg={"#050504"}
           type="email"
           placeholder="Enter Your email"
           value={email}
@@ -81,7 +81,7 @@ const Login = () => {
       <FormControl id="password" isRequired>
         <Flex justifyContent={"space-between"} alignItems={"center"}>
           <FormLabel fontSize={"14px"}>Password</FormLabel>{" "}
-          <Link color={"rgba(66, 153, 225, 0.6)"} fontSize={"10px"}>
+          <Link color={"blue"} fontSize={"10px"}>
             forgot password
           </Link>
         </Flex>
@@ -89,7 +89,7 @@ const Login = () => {
         <InputGroup>
           <Input
             fontSize={"14px"}
-            bg={"#050504"}
+            // bg={"#050504"}
             type={show ? "text" : "password"}
             placeholder="Enter Password"
             value={password}
@@ -101,6 +101,7 @@ const Login = () => {
             <Button
               marginRight={"2px"}
               colorScheme="#050504"
+              color={"black"}
               fontSize={"14px"}
               h={"1.75rem"}
               size={"sm"}

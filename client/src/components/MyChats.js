@@ -5,6 +5,7 @@ import axios from "axios";
 import { AddIcon } from "@chakra-ui/icons";
 import ChatLoading from "./chatLoading";
 import { getSender } from "../config/ChatLogics";
+import GroupChatModal from "./miscellaneous/GroupChatModal";
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
@@ -19,6 +20,7 @@ const MyChats = ({ fetchAgain }) => {
       position: "bottom",
     });
   };
+
   // function to fetch all the chats <1 on 1>
   const fetchChats = async () => {
     try {
@@ -29,10 +31,9 @@ const MyChats = ({ fetchAgain }) => {
       };
 
       const { data } = await axios.get("/api/chat", config);
-      console.log(data);
+
       setChats(data);
     } catch (error) {
-      console.log(error);
       addToast("Failed to Load the Chats", "error");
       return;
     }
@@ -48,7 +49,7 @@ const MyChats = ({ fetchAgain }) => {
   return (
     <>
       <Box
-        display={{ base: !selectedChat ? "none" : "flex", md: "flex" }}
+        display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
         flexDir={"column"}
         alignItems={"center"}
         p={3}
@@ -68,13 +69,17 @@ const MyChats = ({ fetchAgain }) => {
           alignItems={"center"}
         >
           My Chats
-          <Button
-            display={"flex"}
-            fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-            rightIcon={<AddIcon />}
-          >
-            <Text display={{ base: "none", md: "block" }}>New Group Chat</Text>
-          </Button>
+          <GroupChatModal>
+            <Button
+              display={"flex"}
+              fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+              rightIcon={<AddIcon />}
+            >
+              <Text display={{ base: "none", md: "block" }}>
+                New Group Chat
+              </Text>
+            </Button>
+          </GroupChatModal>
         </Box>
         <Box
           display={"flex"}

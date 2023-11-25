@@ -34,8 +34,22 @@ const HomePage = () => {
         m={"auto"}
         centerContent
       >
-        <Box>
-          <Text color={"white"} textAlign={"center"} fontSize={"4xl"}>
+        <Box
+          d="flex"
+          justifyContent="center"
+          alignItems="center"
+          p={3}
+          bg={"white"}
+          w="100%"
+          m="40px 0 15px 0"
+          borderRadius={"lg"}
+        >
+          <Text
+            color={"black"}
+            textAlign={"center"}
+            fontSize={"4xl"}
+            fontFamily={"Work seas"}
+          >
             Chat
           </Text>
         </Box>
@@ -48,14 +62,14 @@ const HomePage = () => {
           justifyContent="center"
           alignItems="center"
           p={3}
-          // bg={"#121111"}
+          bg={"white"}
           w="100%"
           m="40px 0 15px 0"
           borderRadius={"lg"}
           // borderColor={"#121111"}
           borderWidth=""
         >
-          <Tabs isFitted variant="enclosed" color={"white"}>
+          <Tabs isFitted variant="enclosed" color={"black"}>
             <TabList mb="1em">
               <Tab>Sign in</Tab>
               <Tab>Sign up</Tab>
