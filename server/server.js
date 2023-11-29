@@ -6,22 +6,37 @@ const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const { errorHandler, notFound } = require("./middleware/errorMiddleware");
+const path = require("path");
 
 dotenv.config();
 connectDb();
 const app = express();
-
+app.use(express.urlencoded());
 app.use(express.json()); // to accept json data
 // app.use(express.urlencoded);
-app.get("/", (req, res) => {
-  return res.send("Hello....!");
-});
+// app.get("/", (req, res) => {
+//   return res.send("Hello....!");
+// });
 
 // routs all the request's witch has a url /ap/user
 // to userRouts
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
+// ------------------------Deployment-------------------
+const _dirname1 = path.resolve();
+if (process.env.NODE_ENV == "production") {
+  app.use(express.static(path.join(_dirname1, "/frontend/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(_dirname1, "frontend", "build", "index,html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("Api running successfully");
+  });
+}
+// ------------------------Deployment-------------------
+
 app.use(notFound);
 app.use(errorHandler);
 
