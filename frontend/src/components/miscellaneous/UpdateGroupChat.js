@@ -1,4 +1,3 @@
-import { ViewIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -16,9 +15,10 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
+import { ViewIcon } from "@chakra-ui/icons";
 import React, { useState } from "react";
-import { ChatState } from "../../Context/ChatProvider";
-import UserBadgeItem from "../UserAvatar/UserBadgeItem";
+import { ChatState } from "../../context/ChatProvider";
+import UserBadgeItem from "../UserAvatar/UserBadgeitem";
 import axios from "axios";
 import UserListItem from "../UserAvatar/UserListItem";
 
@@ -79,7 +79,7 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      addToast("Error Occurred!", "error");
+      addToast("Error Occurred!", "error", "");
     }
   };
 
@@ -144,7 +144,7 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
   // function to add searched users to group
   const handelAddUser = async (person) => {
     if (selectedChat.users.find((u) => u._id === person._id)) {
-      addToast("User Already is in group", "Warning");
+      addToast("User Already is in group", "warning");
       return;
     }
 
@@ -181,10 +181,13 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
   return (
     <>
       <IconButton
-        display={{ base: "flex" }}
+        color={"#3e7949"}
+        bg={"#222222"}
+        _hover={{ bg: "#222222", color: "#46a758" }}
+        display={"flex"}
         icon={<ViewIcon />}
         onClick={onOpen}
-      />
+      ></IconButton>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -194,6 +197,8 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
           alignItems={"center"}
           // height={{ base: "300px", md: "380px" }}
           width={{ base: "70%", md: "40%", lg: "40%" }}
+          color={"#eeeeee"}
+          bg={"#222222"}
         >
           <ModalHeader
             fontSize={{ base: "20px", md: "25px", lg: "30px" }}
@@ -203,7 +208,7 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
           >
             {selectedChat.chatName}
           </ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton color={"#3e7949"} _hover={{ color: "#46a758" }} />
           <ModalBody>
             <Box w={"100%"} display={"flex"} flexDir={"row"}>
               {selectedChat.users.map((user) => {
@@ -218,6 +223,8 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
             </Box>
             <FormControl display={"flex"}>
               <Input
+                borderColor={"#111111"}
+                bg={"#111111"}
                 placeholder="Chat Name"
                 mb={3}
                 value={groupChatName}
@@ -225,7 +232,9 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
               />
               <Button
                 variant={"solid"}
-                colorScheme="teal"
+                color={"eeeeee"}
+                bg={"#3e7949"}
+                _hover={{ bg: "#46a758" }}
                 ml={1}
                 isLoading={renameLoading}
                 onClick={handelRename}
@@ -236,6 +245,8 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
 
             <FormControl>
               <Input
+                borderColor={"#111111"}
+                bg={"#111111"}
                 placeholder="Add User to group"
                 mb={1}
                 onChange={(e) => handelSearch(e.target.value)}

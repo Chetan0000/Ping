@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@300;400&family=Work+Sans:wght@300&display=swap");
+
+:root {
+  --BGColor: #111111;
+  --textColor: #eeeeee;
+  --primary: #222222;
+  /* --secondary: #33b074; */
+  --buttonBG: #3e7949;
+  --buttonON: #46a758;
+  --links: #2b6cb0;
+}
+.App {
+  min-height: 100vh;
+  display: flex;
+  background-color: var(--BGColor);
+  color: var(--textColor);
+  /* background-color: rgb(126, 208, 213); */
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+.backGroundColor {
+  background-color: var(--primary);
+}
+.buttonBG {
+  background-color: var(--buttonBG);
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(136, 136, 136, 0, 281);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

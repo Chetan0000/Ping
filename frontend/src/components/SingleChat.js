@@ -1,45 +1,38 @@
 import React, { useEffect, useState } from "react";
-import { ChatState } from "../Context/ChatProvider";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
 import {
   Box,
+  Button,
   FormControl,
   IconButton,
   Input,
+  InputGroup,
+  InputRightElement,
   Spinner,
   Text,
   useToast,
 } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
+import { ChatState } from "../context/ChatProvider";
 import { getSender, getSenderFull } from "../config/ChatLogics";
 import ProfileModel from "./miscellaneous/ProfileModel";
 import UpdateGroupChat from "./miscellaneous/UpdateGroupChat";
 import axios from "axios";
-import "./style.css";
-import ScrollableChat from "./ScrollableChat";
-import { Lottie } from "lottie-react";
 import io from "socket.io-client";
-import animation from "../animations/typing.json";
+import ScrollableChat from "./ScrollableChat";
+
 const ENDPOINT = "http://localhost:8000";
 let socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
-  const { user, selectedChat, setSelectedChat } = ChatState();
+  const { user, selectedChat, setSelectedChat, notification, setNotification } =
+    ChatState();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
   const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [socketConnected, setSocketConnected] = useState(false);
-
-  // typing animation function
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animation,
-    renderSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
 
   const toast = useToast();
   const toastIdRef = React.useRef();
@@ -69,10 +62,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         `/api/message/${selectedChat._id}`,
         config
       );
-      // console.log(data);
       setMessages(data);
       setLoading(false);
-      socket.emit("join chat", selectedChat._id);
     } catch (error) {
       setLoading(false);
       addToast("Error Occurred!", "error", "Failed to Load the Chats");
@@ -97,12 +88,17 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         !selectedChatCompare ||
         selectedChatCompare._id !== newMessageReceived.chat._id
       ) {
-        // give notification
+        if (!notification.includes(newMessageReceived)) {
+          setNotification([newMessageReceived, ...notification]);
+          setFetchAgain(!fetchAgain);
+        }
       } else {
         setMessages([...messages, newMessageReceived]);
       }
     });
   });
+
+  //
 
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
@@ -123,19 +119,49 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
           config
         );
+        console.log(messages);
+
         socket.emit("new message", data);
         setMessages([...messages, data]);
-      } catch (error) {
-        addToast("Error Occurred!", "Error", "Failed to send the message");
-      }
+        // console.log(messages);
+      } catch (error) {}
     }
+  };
+
+  const sendMessageButton = async () => {
+    if (!newMessage) return;
+    socket.emit("stop typing", selectedChat._id);
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      setNewMessage("");
+      const { data } = await axios.post(
+        "/api/message",
+        {
+          content: newMessage,
+          chatId: selectedChat._id,
+        },
+        config
+      );
+      // console.log(data);
+
+      socket.emit("new message", data);
+      setMessages([...messages, data]);
+    } catch (error) {}
   };
 
   const typingHandler = (event) => {
     setNewMessage(event.target.value);
-    if (!socketConnected) return;
+    if (!socketConnected) {
+      return;
+    }
 
     if (!typing) {
+      console.log("check typing");
       setTyping(true);
       socket.emit("typing", selectedChat._id);
     }
@@ -168,16 +194,20 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             alignItems={"center"}
           >
             <IconButton
+              fontSize={"xl"}
+              color={"#3e7949"}
+              bg={"#222222"}
+              _hover={{ bg: "#222222", color: "#46a758" }}
               display={{ base: "flex", md: "none" }}
               icon={<ArrowBackIcon />}
-              onClick={() => {
-                setSelectedChat("");
-              }}
+              onClick={() => setSelectedChat("")}
             />
             {!selectedChat.isGroupChat ? (
               <>
                 {getSender(user, selectedChat.users)}
-                <ProfileModel user={getSenderFull(user, selectedChat.users)} />
+                <ProfileModel
+                  user={getSenderFull(user, selectedChat.users)}
+                ></ProfileModel>
               </>
             ) : (
               <>
@@ -194,9 +224,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           <Box
             display={"flex"}
             flexDir={"column"}
+            // justifyContent={"center"}
             justifyContent={"flex-end"}
             p={3}
-            bg={"#E8E8E8"}
+            bg={"#191919"}
             w={"100%"}
             h={"100%"}
             borderRadius={"lg"}
@@ -209,6 +240,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 h={20}
                 alignSelf="center"
                 margin="auto"
+                color="eeeeee"
               />
             ) : (
               <div className="messages">
@@ -222,14 +254,28 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               isRequired
               mt={3}
             >
-              {isTyping ? <div>loading..</div> : <></>}
-              <Input
-                variant="filled"
-                bg="#E0E0E0"
-                placeholder="Enter a message.."
-                value={newMessage}
-                onChange={typingHandler}
-              />
+              {isTyping ? <div>Typing...</div> : <></>}
+              <InputGroup>
+                <Input
+                  //   variant="filled"
+                  bg={"#222222"}
+                  borderColor={"#222222"}
+                  placeholder="Enter a message"
+                  value={newMessage}
+                  onChange={typingHandler}
+                ></Input>
+                <InputRightElement>
+                  <Button
+                    fontSize={"xl"}
+                    bg={"#191919"}
+                    color={"#3e7949"}
+                    _hover={{ color: "#46a758", bg: "#191919" }}
+                    onClick={sendMessageButton}
+                  >
+                    <ArrowForwardIcon />
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
             </FormControl>
           </Box>
         </>
