@@ -61,13 +61,14 @@ const GroupChatModal = ({ children }) => {
         },
       };
 
-      //   const { data } = await axios.get(`/api/user/?search=${query}`, config);
       const { data } = await axios.get(`/api/user/?search=${query}`, config);
+      // const { data } = await axios.get(`/api/user/?search=${query}`, config);
       setSearchResults(data);
 
       setLoading(false);
     } catch (error) {
-      addToast("Error Occurred!", "error", error.message);
+      console.log(error);
+      addToast("Error Occurred!", "error", error);
       setLoading(false);
     }
   };

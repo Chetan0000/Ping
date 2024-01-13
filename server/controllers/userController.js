@@ -65,14 +65,14 @@ const authUser = asyncHandler(async (req, res) => {
   } else {
     console.log("error");
     res.status(400);
-    throw new Error(`Invalid Email or Password`);
+    throw new Error(`Invalid Email or Pasorswd`);
   }
 });
 
 // function to find users
 
-const allUser = asyncHandler(async (req, res) => {
-  const keyword = req.query.search
+const allUer = asyncHandler(async (req, res) => {
+  const search = req.query.search
     ? {
         $or: [
           { name: { $regex: req.query.search, $options: "i" } },
@@ -80,9 +80,9 @@ const allUser = asyncHandler(async (req, res) => {
         ],
       }
     : {};
-  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+  const users = await User.find(search).find({ _id: { $ne: req.user._id } });
   console.log(req.user);
   res.send(users);
 });
 
-module.exports = { registerUser, authUser, allUser };
+module.exports = { registerUser, authUser, allUer };
