@@ -150,7 +150,23 @@ const Login = () => {
           setPassword("123456");
         }}
       >
-        Gest user
+        Gust user 1
+      </Button>
+      <Button
+        bg={"#F4511E"}
+        _hover={{ bg: "#FF5722" }}
+        colorScheme="red"
+        variant={"solid"}
+        h={"35px"}
+        marginTop={"10px"}
+        fontSize={"14px"}
+        width={"100%"}
+        onClick={() => {
+          setEmail("chetan@gmail.com");
+          setPassword("123456");
+        }}
+      >
+        Gust user 2
       </Button>
     </>
   );

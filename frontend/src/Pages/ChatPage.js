@@ -11,7 +11,9 @@ const CHatPage = () => {
   return (
     <>
       <div style={{ width: "100%" }}>
-        {user && <SideDrawer />}
+        <Box w={"100%"} px={"10px"}>
+          {user && <SideDrawer />}
+        </Box>
         <Box
           display={"flex"}
           flexDir={"row"}

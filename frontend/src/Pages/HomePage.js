@@ -31,7 +31,7 @@ const HomePage = () => {
           className="backGroundColor"
         >
           <Text textAlign={"center"} fontSize={"4xl"}>
-            Chat
+            Ping
           </Text>
         </Box>
 

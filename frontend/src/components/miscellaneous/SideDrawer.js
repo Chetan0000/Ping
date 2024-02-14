@@ -39,6 +39,7 @@ const SideDrawer = () => {
   const [loadingChat, setLoadingChat] = useState(false);
   const {
     user,
+    setUser,
     setSelectedChat,
     chats,
     setChats,
@@ -66,6 +67,8 @@ const SideDrawer = () => {
 
   //   logout
   const logoutHandler = () => {
+    setUser("");
+    localStorage.clear();
     navigate("/");
   };
 
@@ -129,6 +132,7 @@ const SideDrawer = () => {
         width={"100%"}
         p={"5px 10px 5px 10px"}
         borderRadius={"lg"}
+        m={"auto"}
       >
         {/* search button  */}
         <Tooltip
@@ -149,7 +153,7 @@ const SideDrawer = () => {
               colorScheme="white"
               aria-label="Search database"
               icon={
-                <SearchIcon color={"#3e7949"} _hover={{ color: "#3e7949" }} />
+                <SearchIcon color={"#3e7949"} _hover={{ color: "#46a758" }} />
               }
             />
             <Text display={{ base: "none", md: "flex" }} px={"4"}>
@@ -172,7 +176,7 @@ const SideDrawer = () => {
           <Menu>
             <MenuButton
               color={"#3e7949"}
-              _hover={{ color: "#3e7949" }}
+              _hover={{ color: "#46a758" }}
               bg={"#222222"}
               as={IconButton}
               aria-label="Options"
@@ -182,13 +186,19 @@ const SideDrawer = () => {
                 count={notification.length}
                 Effect={Effect.SCALE}
               /> */}
-              <BellIcon fontSize="2xl" m={1} />
+              <Box display={"flex"}>
+                <BellIcon fontSize="2xl" m={1} />
+                <Text ml={"-8px"}>
+                  {notification.length > 0 ? <>{notification.length}</> : <></>}
+                </Text>
+              </Box>
             </MenuButton>
             <MenuList
               bg={"#111111"}
               color={"#eeeeee"}
               borderColor={"#111111"}
               display={"flex"}
+              flexDirection={"column"}
               alignItems={"center"}
               justifyContent={"center"}
             >
@@ -212,6 +222,21 @@ const SideDrawer = () => {
                     : `New Message from ${getSender(user, notif.chat.users)}`}
                 </MenuItem>
               ))}
+
+              <Box w={"100%"} textAlign={"end"}>
+                <Text
+                  cursor={"pointer"}
+                  color={"#3e7949"}
+                  _hover={{ color: "#46a758" }}
+                  fontSize={"25px"}
+                  pr={"10px"}
+                  onClick={() => {
+                    setNotification([]);
+                  }}
+                >
+                  ×
+                </Text>
+              </Box>
             </MenuList>
           </Menu>
           {/* profile and logout menu */}
@@ -237,7 +262,7 @@ const SideDrawer = () => {
               bg={"#222222"}
               borderColor={"#222222"}
               color={"#3e7949"}
-              _hover={{ color: "#3e7949" }}
+              _hover={{ color: "#46a758" }}
             >
               <ProfileModel user={user}>
                 <MenuItem bg={"#222222"}>My Profile</MenuItem>
