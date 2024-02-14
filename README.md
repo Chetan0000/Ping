@@ -1,6 +1,6 @@
 ## MERN Stack Chat Application
 
-This is a real-time chat application built using the MERN stack (MongoDB, Express.js, React.js, and Node.js). It provides users with a seamless and interactive chatting experience.
+This is a real-time chat application built using the MERN stack (MongoDB, Express.js, React.js, and Node.js). It provides users with a seamless and interactive chatting experience. visit the app/web : https://ping-r7s3.onrender.com
 
 **Features:**
 
