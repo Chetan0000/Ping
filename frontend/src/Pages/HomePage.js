@@ -47,8 +47,8 @@ const HomePage = () => {
         >
           <Tabs isFitted variant="enclosed">
             <TabList>
-              <Tab>One</Tab>
-              <Tab>Two</Tab>
+              <Tab>Login</Tab>
+              <Tab>Sign up</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
