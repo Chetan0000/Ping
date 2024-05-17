@@ -121,9 +121,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         );
         console.log(messages);
 
+        console.log(socket);
         socket.emit("new message", data);
         setMessages([...messages, data]);
-        // console.log(messages);
       } catch (error) {}
     }
   };
@@ -235,22 +235,22 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           >
             {loading ? (
               <Spinner
-                size="xl"
+                size='xl'
                 w={20}
                 h={20}
-                alignSelf="center"
-                margin="auto"
-                color="eeeeee"
+                alignSelf='center'
+                margin='auto'
+                color='eeeeee'
               />
             ) : (
-              <div className="messages">
+              <div className='messages'>
                 <ScrollableChat messages={messages} />
               </div>
             )}
 
             <FormControl
               onKeyDown={sendMessage}
-              id="first-name"
+              id='first-name'
               isRequired
               mt={3}
             >
@@ -260,7 +260,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                   //   variant="filled"
                   bg={"#222222"}
                   borderColor={"#222222"}
-                  placeholder="Enter a message"
+                  placeholder='Enter a message'
                   value={newMessage}
                   onChange={typingHandler}
                 ></Input>
